@@ -1,0 +1,11 @@
+
+			textureLoader.load( "<?php echo site_url('public/assets/images/moon/earth_atmos.jpg'); ?>", function( map ) {
+				map.anisotropy = 4;
+				earthMat.map = map;
+				earthMat.needsUpdate = true;
+			} );
+			textureLoader.load( "<?php echo site_url('public/assets/images/moon/earth_specular.jpg'); ?>", function( map ) {
+				map.anisotropy = 4;
+				earthMat.metalnessMap = map;
+				earthMat.needsUpdate = true;
+			} );

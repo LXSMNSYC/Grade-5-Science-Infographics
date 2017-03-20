@@ -1,0 +1,54 @@
+/* Resets */
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+
+/* Helper classes */
+
+.cf:before,
+.cf:after {
+	content: ' ';
+	display: table;
+}
+
+.cf:after {
+	clear: both;
+}
+
+body{
+	font-family: 'Roboto';
+	color: #eceff1;
+	margin: 0;
+	background: #263238;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+
+a {
+	text-decoration: none;
+	color: #5c5edc;
+	outline: none;
+}
+
+a:hover {
+	color: #fff;
+}
+
+
+#page-home{
+	background: #009688;
+}
+
+#page-license {
+	background: #039be5;
+}
+
+#page-credits{
+	background: #01579b;
+}
+

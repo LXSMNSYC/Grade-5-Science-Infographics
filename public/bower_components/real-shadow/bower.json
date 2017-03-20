@@ -1,0 +1,33 @@
+{
+  "name": "real-shadow",
+  "version": "1.4.1",
+  "homepage": "http://indamix.github.io/real-shadow",
+  "authors": [
+    {
+      "name": "Indamix",
+      "homepage": "https://indamix.github.io"
+    }
+  ],
+  "description": "Real Shadow: Photorealistic Shadows of any shape",
+  "main": "realshadow.js",
+  "keywords": [
+    "shadow",
+    "real shadow",
+    "jquery",
+    "plugin",
+    "shadows",
+    "shadow custom shape",
+    "css",
+    "css3"
+  ],
+  "license": "MIT",
+  "ignore": [
+    ".gitignore",
+    "i",
+    "node_modules",
+    "bower_components",
+    "demo.js",
+    "index.html",
+    "main.css"
+  ]
+}
