@@ -44,7 +44,7 @@
 		<a class="btn waves-effect waves-light blue-grey darken-4" onclick="setSunAngle(90, 'Full Moon');">Full Moon</a>
 		<a class="btn waves-effect waves-light blue-grey darken-4" onclick="setSunAngle(45, 'Waning Gibbous');">Waning Gibbous</a>
         <a class="btn waves-effect waves-light blue-grey darken-4" onclick="setSunAngle(0, 'Third Quarter');" >Third Quarter</a>
-        <a class="btn waves-effect waves-light blue-grey darken-4" onclick="setSunAngle(-70, 'Waning Crescent');">Waning Crescent</a>
+        <a class="btn waves-effect waves-light blue-grey darken-4" onclick="setSunAngle(-45, 'Waning Crescent');">Waning Crescent</a>
 	</div>
 	<div id="moon-renderer" style="z-index: 99;">
 	</div>
@@ -107,27 +107,38 @@
 			scene.add( moonMesh );
 			
 			var sunGeo = new THREE.SphereGeometry(0.5, 32, 32);
-			sunLight = new THREE.PointLight(0x000000, 2, 2000);
+			sunLight = new THREE.PointLight(0xffffff, 2, 2000);
 			sunLight.color.setHSL( 0.995, 0.5, 0.9);
-			var sunMat = new THREE.MeshStandardMaterial({
+			/*var sunMat = new THREE.MeshStandardMaterial({
 				emissive: 0xffffff,
 				emissiveIntensity: 10,
 				color: 0x000000
 			});
 			
 			sunLight.add(new THREE.Mesh(sunGeo, sunMat));
+			sunMat.emissiveIntensity = sunLight.intensity / Math.pow( 0.02, 2.0 )*/
 			sunLight.position.set(distance, 0, 0);
 			sunLight.power = 20000;
-			sunMat.emissiveIntensity = sunLight.intensity / Math.pow( 0.02, 2.0 )
 			sunLight.castShadow = true;
 			
 			scene.add(sunLight);
 			var textureFlare = textureLoader.load( "public/assets/images/moon/lensflare0.png" );
+			var textureFlare2 = textureLoader.load( "public/assets/images/moon/lensflare2.png" );
+			var textureFlare3 = textureLoader.load( "public/assets/images/moon/lensflare3.png" );
 
 			var flareColor = new THREE.Color( 0xffffff );
 			flareColor.setHSL( 0.995, 0.5, 1.4 );
 
 			lensFlare = new THREE.LensFlare( textureFlare, 700, 0.0, THREE.AdditiveBlending, flareColor );
+			
+			lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending );
+			lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending );
+			lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending );
+			lensFlare.add( textureFlare3, 60, 0.6, THREE.AdditiveBlending );
+			lensFlare.add( textureFlare3, 70, 0.7, THREE.AdditiveBlending );
+			lensFlare.add( textureFlare3, 120, 0.9, THREE.AdditiveBlending );
+			lensFlare.add( textureFlare3, 70, 1.0, THREE.AdditiveBlending );
+			lensFlare.customUpdateCallback = lensFlareUpdateCallback;
 			lensFlare.position.copy( sunLight.position );
 
 			scene.add( lensFlare );
@@ -146,7 +157,20 @@
 			
 			window.addEventListener( 'resize', onWindowResize, false );
 		}
-		
+		function lensFlareUpdateCallback( object ) {
+				var f, fl = object.lensFlares.length;
+				var flare;
+				var vecX = -object.positionScreen.x * 2;
+				var vecY = -object.positionScreen.y * 2;
+				for( f = 0; f < fl; f++ ) {
+					flare = object.lensFlares[ f ];
+					flare.x = object.positionScreen.x + vecX * flare.distance;
+					flare.y = object.positionScreen.y + vecY * flare.distance;
+					flare.rotation = 0;
+				}
+				object.lensFlares[ 2 ].y += 0.025;
+				object.lensFlares[ 3 ].rotation = object.positionScreen.x * 0.5 + THREE.Math.degToRad( 45 );
+			}
 		function onWindowResize() {
 			renderer.setSize( window.innerWidth, window.innerHeight );
 			camera.aspect = window.innerWidth / window.innerHeight;
